@@ -32,32 +32,37 @@ USERNAME_FIELD = "email"
 REQUIRED_FIELDS = []
 
 ALLOWED_HOSTS = [
-    '.onrender.com',
-    'localhost',
-    '127.0.0.1',
+    ".railway.app",
+    ".onrender.com",
+    "localhost",
+    "127.0.0.1",
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://dn-blood-bank.onrender.com",
-]   
+    "http://localhost:5173",   # Vite dev server
+    "http://127.0.0.1:5173",
+    "https://manobota-blood-bank.vercel.app",  # CHANGE THIS
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://dn-blood-bank.onrender.com",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://your-frontend.vercel.app",
 ]
 
-SECURE_PROXY_SSL_HEADER = (
-    "HTTP_X_FORWARDED_PROTO",
-    "https",
-)
-
-USE_X_FORWARDED_HOST = True
-
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    "authorization",
-]
-
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True   
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
@@ -141,16 +146,14 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+import dj_database_url
+from decouple import config
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("PGDATABASE"),
-        "USER": config("PGUSER"),
-        "PASSWORD": config("PGPASSWORD"),
-        "HOST": config("PGHOST"),
-        "PORT": config("PGPORT"),
-    }
+    "default": dj_database_url.parse(
+        config("DATABASE_URL"),
+        conn_max_age=600
+    )
 }
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
