@@ -1,0 +1,33 @@
+from rest_framework import viewsets, mixins
+from rest_framework import status
+from rest_framework.response import Response
+from .serializers import UserRegisterSerializer, UserInformationsSerializer
+from user_app.models import User
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+
+class UserRegisterView(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    serializer_class = UserRegisterSerializer
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            {
+                "message": "User registered successfully.",
+                "user": serializer.data
+            }, 
+            status=status.HTTP_201_CREATED, 
+            headers=headers
+        )
+
+class UserInformationsViewSet(viewsets.ModelViewSet):
+    serializer_class = UserInformationsSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return User.objects.filter(id=self.request.user.id).all()
