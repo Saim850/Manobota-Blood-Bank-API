@@ -31,8 +31,7 @@ DEBUG = config("DEBUG")
 USERNAME_FIELD = "email"
 REQUIRED_FIELDS = []
 
-ALLOWED_HOSTS = [
-    ".railway.app",
+ALLOWED_HOSTS = [   
     ".onrender.com",
     "localhost",
     "127.0.0.1",
@@ -146,14 +145,15 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-import dj_database_url
-from decouple import config
-
 DATABASES = {
-    "default": dj_database_url.parse(
-        config("DATABASE_URL"),
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config("DBNAME"),
+        'USER': config("DBUSER"),
+        'PASSWORD': config("DBPASSWORD"),
+        'HOST': config("DBHOST"),
+        'PORT': config("DBPORT"),
+    }
 }
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
