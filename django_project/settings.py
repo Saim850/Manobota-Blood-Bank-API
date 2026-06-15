@@ -40,7 +40,7 @@ ALLOWED_HOSTS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",   # Vite dev server
     "http://127.0.0.1:5173",
-    "https://manobota-blood-bank.vercel.app",  # CHANGE THIS
+    "https://manobota-blood-bank-client.vercel.app",  # CHANGE THIS
 ]
 
 CORS_ALLOW_HEADERS = [
