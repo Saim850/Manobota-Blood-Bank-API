@@ -2,9 +2,10 @@ from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 from .serializers import UserRegisterSerializer, UserInformationsSerializer, DeleteUserSerializer
 from user_app.models import User
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from django_app.permissions import IsAdminOrReadOnly
 
 class UserRegisterView(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = UserRegisterSerializer
@@ -27,7 +28,7 @@ class UserRegisterView(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 class UserInformationsViewSet(viewsets.ModelViewSet):
     serializer_class = UserInformationsSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id).all()
 
