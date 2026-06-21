@@ -2,7 +2,7 @@ from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 from .serializers import UserRegisterSerializer, UserInformationsSerializer, DeleteUserSerializer
 from user_app.models import User
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
@@ -34,6 +34,7 @@ class UserInformationsViewSet(viewsets.ModelViewSet):
 class DeleteUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = DeleteUserSerializer
+    permission_classes = [IsAdminUser]
 
     def create(self, request, *args, **kwargs):
         email = request.data.get('email')
