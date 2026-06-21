@@ -3,12 +3,12 @@ from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
 class District(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=20)
     def __str__(self):
         return self.name
     
 class Upazila(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=20)
     def __str__(self):
         return self.name
 
@@ -28,11 +28,11 @@ class DonorProfile(models.Model):
     total_donations = models.PositiveIntegerField(default=0)
 
 class BloodRequest(models.Model):
-    patient_name = models.CharField(max_length=100)
+    patient_name = models.CharField(max_length=25)
     blood_group = models.ForeignKey(BloodGroup, on_delete=models.CASCADE, related_name='request_blood_group')
     district = models.ForeignKey(District, on_delete=models.CASCADE, related_name='request_district')
     upazila = models.ForeignKey(Upazila, on_delete=models.CASCADE, related_name='request_upazila')
-    hospital_name = models.CharField(max_length=100)
+    hospital_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=11)
     required_date = models.DateField()
     blood_units = models.PositiveIntegerField()
