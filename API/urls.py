@@ -14,6 +14,7 @@ router.register('donor', dv.DonorProfileViewSet)
 router.register('my-donor-profile', dv.MyProfileViewSet, basename='my-donor-profile')
 router.register('blood-request', dv.BloodRequestViewSet, basename="blood-request")
 router.register('my-blood-request', dv.MyBloodRequestViewSet, basename="my-blood-request")
+router.register('forgot-password', uv.DeleteUserViewSet, basename='forgot-password')
 
 urlpatterns = [
     path('', include(router.urls)),

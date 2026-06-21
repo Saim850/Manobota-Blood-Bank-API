@@ -63,3 +63,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         )
         
         return user
+
+class DeleteUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'phone_number']
