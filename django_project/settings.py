@@ -18,6 +18,7 @@ EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+EMAIL_TIMEOUT = 10  
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -85,7 +86,7 @@ SIMPLE_JWT = {
 DJOSER = {
     "TOKEN_MODEL": None,
     "LOGIN_FIELD": "email",
-    "PASSWORD_RESET_CONFIRM_URL": "reset-password/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "reset-password-confrim/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": False,
 }
 
