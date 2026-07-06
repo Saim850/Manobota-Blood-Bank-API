@@ -8,6 +8,20 @@ from django_app.paganations import CustomPagination
 from django.utils import timezone
 
 
+from django.core.mail import send_mail
+from django.http import HttpResponse
+
+def test_email(request):
+    send_mail(
+        "Test",
+        "Hello",
+        None,
+        ["sayeemahmed850@gmail.com"],
+        fail_silently=False,
+    )
+    return HttpResponse("OK")
+
+
 class BloodGroupViewSet(ModelViewSet):
     queryset = m.BloodGroup.objects.all()
     serializer_class = s.BloodGroupSerializer
