@@ -88,6 +88,9 @@ DJOSER = {
     "LOGIN_FIELD": "email",
     "PASSWORD_RESET_CONFIRM_URL": "reset-password-confrim/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": False,
+    "EMAIL": {
+        "password_reset": "django_app.email.PasswordResetEmail",
+    },
 }
 
 # Application definition
@@ -146,6 +149,7 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -156,6 +160,7 @@ DATABASES = {
         'PORT': config("DBPORT"),
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 

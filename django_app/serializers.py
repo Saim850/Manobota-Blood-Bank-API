@@ -51,15 +51,3 @@ class DonorProfileSerializer(serializers.ModelSerializer):
             raise ValidationError("Your donor profile already created.")
         
         return super().create(validated_data)
-    
-class BloodRequestSerializer(serializers.ModelSerializer):
-    # Read-only nested details for display
-    user = UserInformationsSerializer(read_only=True)
-    blood_group_name = serializers.ReadOnlyField(source='blood_group.name')
-    district_name = serializers.ReadOnlyField(source='district.name')
-    upazila_name = serializers.ReadOnlyField(source='upazila.name')
-    
-    class Meta:
-        model = m.BloodRequest
-        fields = "__all__"
-        read_only_fields = ['id', 'user']

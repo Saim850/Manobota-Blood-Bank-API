@@ -7,21 +7,6 @@ from django_app.permissions import IsUserOrReadOnly, IsAdminOrReadOnly
 from django_app.paganations import CustomPagination
 from django.utils import timezone
 
-
-from django.core.mail import send_mail
-from django.http import HttpResponse
-
-def test_email(request):
-    send_mail(
-        "Test",
-        "Hello",
-        None,
-        ["sayeemahmed850@gmail.com"],
-        fail_silently=False,
-    )
-    return HttpResponse("OK")
-
-
 class BloodGroupViewSet(ModelViewSet):
     queryset = m.BloodGroup.objects.all()
     serializer_class = s.BloodGroupSerializer
@@ -52,35 +37,3 @@ class DonorProfileViewSet(ModelViewSet):
     filterset_fields = ['blood_group', 'district', 'upazila', 'last_donation_date', 'available']
     
     pagination_class = CustomPagination
-
-class BloodRequestViewSet(ModelViewSet):
-    def get_queryset(self):
-        m.BloodRequest.objects.filter(
-            required_date__lt=timezone.now().date()
-        ).delete()
-
-        return m.BloodRequest.objects.all()
-
-    serializer_class = s.BloodRequestSerializer
-    permission_classes = [IsUserOrReadOnly]
-
-    filter_backends = [DjangoFilterBackend, f.SearchFilter, f.OrderingFilter]
-    filterset_fields = ['blood_group', 'district', 'upazila', 'hospital_name']
-    
-    search_fields = ['patient_name', 'hospital_name', 'contact_number']
-    
-    ordering_fields = ['id', 'patient_name', 'hospital_name']
-    ordering = ['-id']
-    
-    pagination_class = CustomPagination
-
-    def perform_create(self, serializer):
-        """Save the blood request with the current user as creator"""
-        serializer.save(user=self.request.user)
-
-class MyBloodRequestViewSet(ModelViewSet):
-    permission_classes = [IsUserOrReadOnly, p.IsAuthenticated]
-    serializer_class = s.BloodRequestSerializer
-    pagination_class = CustomPagination
-    def get_queryset(self):
-        return m.BloodRequest.objects.filter(user=self.request.user.id).all()
