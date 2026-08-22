@@ -5,21 +5,10 @@ from rest_framework import permissions as p, filters as f
 from django_filters.rest_framework import DjangoFilterBackend # type: ignore
 from django_app.permissions import IsUserOrReadOnly, IsAdminOrReadOnly
 from django_app.paganations import CustomPagination
-from django.utils import timezone
 
 class BloodGroupViewSet(ModelViewSet):
     queryset = m.BloodGroup.objects.all()
     serializer_class = s.BloodGroupSerializer
-    permission_classes = [IsAdminOrReadOnly]
-
-class DistrictViewSet(ModelViewSet):
-    queryset = m.District.objects.all()
-    serializer_class = s.DistrictSerializer
-    permission_classes = [IsAdminOrReadOnly]
-
-class UpazilaViewSet(ModelViewSet):
-    queryset = m.Upazila.objects.all()
-    serializer_class = s.UpazilaSerializer
     permission_classes = [IsAdminOrReadOnly]
 
 class MyProfileViewSet(ModelViewSet):
@@ -29,11 +18,11 @@ class MyProfileViewSet(ModelViewSet):
         return m.DonorProfile.objects.filter(user=self.request.user).all()
 
 class DonorProfileViewSet(ModelViewSet):
-    queryset = queryset = m.DonorProfile.objects.select_related('user', 'blood_group', 'district', 'upazila').all()
+    queryset = queryset = m.DonorProfile.objects.select_related('user', 'blood_group').all()
     serializer_class = s.DonorProfileSerializer
     permission_classes = [IsUserOrReadOnly]
 
     filter_backends = [DjangoFilterBackend, f.SearchFilter, f.OrderingFilter]
-    filterset_fields = ['blood_group', 'district', 'upazila', 'last_donation_date', 'available']
-    
+    filterset_fields = ['blood_group', 'available']
+
     pagination_class = CustomPagination

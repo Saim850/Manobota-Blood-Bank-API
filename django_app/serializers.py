@@ -2,42 +2,32 @@ from rest_framework import serializers
 from django_app import models as m
 from rest_framework.validators import ValidationError
 import re
-from user_app.serializers import UserInformationsSerializer
 
 class BloodGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model  = m.BloodGroup
         fields = ["id", 'name']
 
-class DistrictSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = m.District
-        fields = ['id', 'name']
-
-class UpazilaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = m.Upazila
-        fields = ['id', 'name']
-
 class DonorProfileSerializer(serializers.ModelSerializer):
-    user = UserInformationsSerializer(read_only=True)
+    user_name = serializers.ReadOnlyField(source="user.name")
+    user_email = serializers.ReadOnlyField(source="user.email")
+    user_phone = serializers.ReadOnlyField(source="user.phone_number")
     blood_group_name = serializers.ReadOnlyField(source="blood_group.name")
-    district_name = serializers.ReadOnlyField(source="district.name")
-    upazila_name = serializers.ReadOnlyField(source="upazila.name")
 
     class Meta:
         model = m.DonorProfile
         fields = [
             'id',
             'user',
+            'user_name',
+            'user_email',
+            'user_phone',
             'blood_group',
             'blood_group_name',
             'last_donation_date',
             'district',
-            'district_name',
             'upazila',
-            'upazila_name',
-            'full_address',
+            'village',
             'available',
             'total_donations'
         ]
