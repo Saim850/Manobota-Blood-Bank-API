@@ -91,6 +91,11 @@ DJOSER = {
     "EMAIL": {
         "password_reset": "django_app.email.PasswordResetEmail",
     },
+
+    "SERIALIZERS": {
+        "user": "user_app.serializers.UserSerializer",
+        "current_user": "user_app.serializers.UserSerializer",
+    },
 }
 
 # Application definition
