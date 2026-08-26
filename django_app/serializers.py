@@ -9,9 +9,9 @@ class BloodGroupSerializer(serializers.ModelSerializer):
         fields = ["id", 'name']
 
 class DonorProfileSerializer(serializers.ModelSerializer):
-    user_name = serializers.ReadOnlyField(source="user.name")
-    user_email = serializers.ReadOnlyField(source="user.email")
-    user_phone = serializers.ReadOnlyField(source="user.phone_number")
+    full_name = serializers.ReadOnlyField(source="user.full_name")
+    email = serializers.ReadOnlyField(source="user.email")
+    phone_number = serializers.ReadOnlyField(source="user.phone_number")
     blood_group_name = serializers.ReadOnlyField(source="blood_group.name")
 
     class Meta:
@@ -19,9 +19,9 @@ class DonorProfileSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
-            'user_name',
-            'user_email',
-            'user_phone',
+            'full_name',
+            'email',
+            'phone_number',
             'blood_group',
             'blood_group_name',
             'last_donation_date',
